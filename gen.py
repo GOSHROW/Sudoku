@@ -1,4 +1,5 @@
 from Solution import BackTrackSolution
+import numpy.random as npr
 
 def generator(dim):
     
@@ -8,13 +9,25 @@ def generator(dim):
     for i in range(dim):
         rowZero = []
         for j in range(dim):
-            rowZero[j] = 0
+            rowZero.append(0)
         sudokuMat.append(rowZero)
     
     rootDim = int((dim ** 0.5) // 1)
 
     squareZ = []
-    for i in range(dim * dim):
+    for i in range(rootDim * rootDim):
         squareZ.append(((i % rootDim), (i // rootDim)))
+
+
+    for i in range(0, dim, rootDim):
+        randomList = npr.permutation(list(range(1, dim + 1)))
+        for j in range(len(squareZ)):
+            j_0 = squareZ[j][0]
+            j_1 = squareZ[j][1]
+            sudokuMat[j_0 + i][j_1 + i] = randomList[j]
     
-    
+    return sudokuMat
+
+if __name__ == '__main__':
+    ob = generator(9)
+    print(ob)
