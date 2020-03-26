@@ -58,8 +58,7 @@ class BackTrackSolution:
             print(self.sudokuMatrix[i], sep = " ", end = "\n")
         print("\n Finished up in {} seconds".format(time.time() - self.timeStart))
 
-    def checkRow(self, row_idx):
-        li = self.sudokuMatrix[row_idx]
+    def checkVal(self, li):
         rets = []
         for ret in li:
             if ret != 0:
@@ -69,20 +68,15 @@ class BackTrackSolution:
                     rets.append(ret)
         return True
 
+    def checkRow(self, row_idx):
+        li = self.sudokuMatrix[row_idx]
+        return self.checkVal(li)
 
     def checkCol(self, col_idx):
         li = []
         for i in range(self.r):
             li.append(self.sudokuMatrix[i][col_idx])
-        rets = []
-        for ret in li:
-            if ret != 0:
-                if ret in rets:
-                    return False
-                else:
-                    rets.append(ret)
-        return True
-
+        return self.checkVal(li)
 
     def checkSquare(self, square_nr):
         li = []
@@ -95,14 +89,7 @@ class BackTrackSolution:
         for y in range(squareY * self.subRC[0], squareY * self.subRC[0] + self.subRC[1]):
             for x in range(squareX * self.subRC[0], squareX * self.subRC[0] + self.subRC[1]):
                 li.append(self.sudokuMatrix[y][x])
-        rets = []
-        for ret in li:
-            if ret != 0:
-                if ret in rets:
-                    return False
-                else:
-                    rets.append(ret)
-        return True
+        return self.checkVal(li)
 
 
 
@@ -157,6 +144,11 @@ class BackTrackSolution:
 
 
 if __name__ == '__main__':
+
+# For testing purposes only,
+# Run Code by entering your own Sudoku Matrix in grid
+# and by python3 Solution.py
+
     grid = []
     grid.append([3, 0, 6, 5, 0, 8, 4, 0, 0])
     grid.append([5, 2, 0, 0, 0, 0, 0, 0, 0])
