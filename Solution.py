@@ -23,6 +23,17 @@ class BackTrackSolution:
         self.x, self.y = 0, 0
 
         self.__mainWorking()
+        ob = self.__checkWorking()
+
+    def __checkWorking(self, paraMatrix):
+        try:
+            self.assertDim()
+        except:
+            return (False, [])
+        if self.y < 0:
+            return (False, [])
+        return self.sudokuMatrix
+
 
     def assertDim(self):
         
