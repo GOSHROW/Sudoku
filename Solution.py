@@ -79,23 +79,23 @@ class BackTrackSolution:
                     rets.append(ret)
         return True
 
-    def checkRow(self, row_idx):
-        li = self.sudokuMatrix[row_idx]
+    def checkRow(self, rowIndex):
+        li = self.sudokuMatrix[rowIndex]
         return self.checkVal(li)
 
-    def checkCol(self, col_idx):
+    def checkCol(self, colIndex):
         li = []
         for i in range(self.r):
-            li.append(self.sudokuMatrix[i][col_idx])
+            li.append(self.sudokuMatrix[i][colIndex])
         return self.checkVal(li)
 
-    def checkSquare(self, square_nr):
+    def checkSquare(self, square):
         li = []
         squareZ = []
         for i in range(self.r * self.c):
             squareZ.append(((i % self.subRC[0]), (i // self.subRC[1])))
         
-        squareX, squareY = squareZ[square_nr]
+        squareX, squareY = squareZ[square]
 
         for y in range(squareY * self.subRC[0], squareY * self.subRC[0] + self.subRC[1]):
             for x in range(squareX * self.subRC[0], squareX * self.subRC[0] + self.subRC[1]):
