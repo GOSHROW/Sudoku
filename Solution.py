@@ -23,16 +23,16 @@ class BackTrackSolution:
         self.x, self.y = 0, 0
 
         self.__mainWorking()
-        self.ob = self.__checkWorking()
+        self.ob = self.__checkWorking(paraMatrix)
 
     def __checkWorking(self, paraMatrix):
         try:
             self.assertDim()
         except:
-            return (False, [])
+            return []
         if self.y < 0:
-            return (False, [])
-        return (True, self.sudokuMatrix)
+            return []
+        return self.sudokuMatrix
 
 
     def assertDim(self):
@@ -67,7 +67,8 @@ class BackTrackSolution:
     def printMat(self):
         for i in range(len(self.sudokuMatrix)):
             print(self.sudokuMatrix[i], sep = " ", end = "\n")
-        print("\nFinished up in {} seconds".format(time.time() - self.timeStart))
+        self.timeElapsed = time.time() - self.timeStart
+        print("\nFinished up in {} seconds".format(self.timeElapsed))
 
     def checkVal(self, li):
         rets = []
@@ -110,7 +111,7 @@ class BackTrackSolution:
         
         if self.y >= self.c:
             self.printMat()
-            exit()
+            return
 
         while True:
             self.sudokuMatrix[self.y][self.x] = self.trial[self.y][self.x]
@@ -123,12 +124,12 @@ class BackTrackSolution:
                 self.x, self.y = self.inc(self.x, self.y)
                 if self.y >= self.r:
                     self.printMat()
-                    exit()
+                    return
                 while self.boolMat[self.y][self.x]:
                     self.x, self.y = self.inc(self.x, self.y)
                     if self.y >= self.r:
                         self.printMat()
-                        exit()
+                        return
             
             else:
                 while True:
@@ -140,14 +141,14 @@ class BackTrackSolution:
                         if self.y < 0:
                             print("Does not have a proper solution\n")
                             self.printMat()
-                            exit()
+                            return
 
                         while self.boolMat[self.y][self.x]:
                             self.x, self.y = self.dec(self.x, self.y)
                             if self.y < 0:
                                 print("Does not have a proper solution\n")
                                 self.printMat()
-                                exit()
+                                return
                     else:
                         self.trial[self.y][self.x] += 1
                         break
