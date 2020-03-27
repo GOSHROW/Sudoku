@@ -28,6 +28,11 @@ def generator(dim):
     
     return sudokuMat
 
+def getGenerated(dim):
+    obDiagonalFilled = generator(dim)
+    obSolved = BackTrackSolution(obDiagonalFilled)
+    print(type(obSolved.ob))
+
+
 if __name__ == '__main__':
-    ob = generator(9)
-    print(ob)
+    getGenerated(9)
