@@ -51,6 +51,26 @@ def sudokuProc(dim, vacancy):
     sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
     sudokuWin.geometry('700x700')
     sudokuWin.configure(background = '#c9aa88', borderwidth = '5px')
+
+    def correct(ent):
+        print(ent)
+        if ent.isdigit():
+            if int(ent[0]) != 0:
+                return True
+        if ent == '':
+            return True
+        return False
+
+    for i in range(len(sudokuUnfilled)):
+        for j in range(i):
+            if sudokuUnfilled[i][j]:
+                Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 10).grid(row = i, column = j)
+            else:
+                e = Entry(sudokuWin, width = 10)
+                reg = e.register(correct)
+                e.config(validate = 'key', validatecommand = (reg, '%P'))
+
+
     sudokuWin.mainloop()
 
 if __name__ == '__main__':
