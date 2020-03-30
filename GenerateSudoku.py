@@ -22,6 +22,6 @@ if __name__ == '__main__':
 # Run Code by entering your own
 # Specifications as Parameters to Gen()
 # and by python3 GenerateSudoku.py
-    ob = Gen(9, 45).remove()
+    ob = Gen(9, 70).remove()
     for i in ob :
         print(i, sep = " ")
