@@ -1,4 +1,5 @@
 from tkinter import *
+from GenerateSudoku import Gen
 
 class Store:
     vacancy = 50
@@ -44,7 +45,13 @@ def init():
 def sudokuProc(dim, vacancy):
     dim = eval(dim.replace('x', '*'))
     vacancy = int(int(vacancy) / 100 * dim * dim)
-    print(dim, vacancy)
+    sudokuUnfilled = Gen(dim, vacancy).remove()
+
+    sudokuWin = Tk()
+    sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
+    sudokuWin.geometry('700x700')
+    sudokuWin.configure(background = '#c9aa88', borderwidth = '5px')
+    sudokuWin.mainloop()
 
 if __name__ == '__main__':
     init()

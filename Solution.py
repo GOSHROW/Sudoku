@@ -65,8 +65,8 @@ class BackTrackSolution:
         return xx, yy
 
     def printMat(self):
-        for i in range(len(self.sudokuMatrix)):
-            print(self.sudokuMatrix[i], sep = " ", end = "\n")
+        # for i in range(len(self.sudokuMatrix)):
+        #     print(self.sudokuMatrix[i], sep = " ", end = "\n")
         self.timeElapsed = time.time() - self.timeStart
         print("\nFinished up in {} seconds".format(self.timeElapsed))
 
