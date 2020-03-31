@@ -64,7 +64,7 @@ def sudokuProc(dim, vacancy):
     for i in range(len(sudokuUnfilled)):
         for j in range(i):
             if sudokuUnfilled[i][j]:
-                Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 10).grid(row = i, column = j)
+                Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 5, height = 3).grid(row = i, column = j)
             else:
                 e = Entry(sudokuWin, width = 10)
                 reg = e.register(correct)

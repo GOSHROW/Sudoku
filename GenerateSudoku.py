@@ -1,5 +1,5 @@
 from GenerateFilled import GenerateFilled
-import random
+import numpy.random as npr
 
 class Gen:
 
@@ -7,11 +7,18 @@ class Gen:
         self.dim = dim
         self.numberVacant = numberVacant
         self.sudokuMatrix = []
-        assert numberVacant <= (self.dim ** 2), "Improper Input, Not enough Cells to Vacate"
+        assert self.numberVacant <= (self.dim ** 2), "Improper Input, Not enough Cells to Vacate"
+
+    def FisherYates(self): 
+        arr = list(range(self.dim ** 2))
+        for i in range(self.dim ** 2 - 1, 0, -1):
+            j = int(npr.uniform(0, i + 1, 1)[0])
+            arr[i], arr[j] = arr[j], arr[i]
+        return arr
 
     def remove(self):
         self.sudokuMatrix = GenerateFilled(self.dim).getGenerated()
-        randSequence = random.sample(range(1, self.dim ** 2), self.numberVacant)
+        randSequence = self.FisherYates()[:self.numberVacant]
         for i in randSequence:
             x, y = i // self.dim, i % self.dim
             self.sudokuMatrix[x][y] = 0
