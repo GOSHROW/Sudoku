@@ -35,7 +35,17 @@ class GenerateFilled:
 
     def getGenerated(self):
         obDiagonalFilled = self.generator()
-        obSolved = BackTrackSolution(obDiagonalFilled).ob
+        try:
+            obDiagonalFilled = self.generator()
+            obSolved = BackTrackSolution(obDiagonalFilled).ob
+        except Exception as e:
+            try:
+                obDiagonalFilled = self.generator()
+                obSolved = BackTrackSolution(obDiagonalFilled).ob
+            except Exception as e:
+                obDiagonalFilled = self.generator()
+                obSolved = BackTrackSolution(obDiagonalFilled).ob
+
         return obSolved
 
 

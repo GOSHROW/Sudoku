@@ -5,7 +5,7 @@ class BackTrackSolution:
     def __init__(self, paraMatrix):
 
         self.sudokuMatrix = []
-
+        print(paraMatrix)
         for row in paraMatrix:
             elements = []
             for element in row:
@@ -18,7 +18,7 @@ class BackTrackSolution:
 
         self.assertDim()
         self.createBoolMatrix()
-
+        print(self.boolMat)
         self.trial = [[1 for i in range(self.r)] for j in range(self.c)]
         self.x, self.y = 0, 0
 
@@ -130,6 +130,7 @@ class BackTrackSolution:
                     if self.y >= self.r:
                         self.printMat()
                         return
+                    print(self.y, self.x)
             
             else:
                 while True:

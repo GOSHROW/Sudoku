@@ -19,8 +19,11 @@ class Gen:
     def remove(self):
         self.sudokuMatrix = GenerateFilled(self.dim).getGenerated()
         randSequence = self.FisherYates()[:self.numberVacant]
+        while len(self.sudokuMatrix) == 0:
+            self.sudokuMatrix = GenerateFilled(self.dim).getGenerated()
         for i in randSequence:
             x, y = i // self.dim, i % self.dim
+            # print(x, y)
             self.sudokuMatrix[x][y] = 0
         return self.sudokuMatrix
 
@@ -29,6 +32,6 @@ if __name__ == '__main__':
 # Run Code by entering your own
 # Specifications as Parameters to Gen()
 # and by python3 GenerateSudoku.py
-    ob = Gen(9, 70).remove()
+    ob = Gen(4, 10).remove()
     for i in ob :
         print(i, sep = " ")

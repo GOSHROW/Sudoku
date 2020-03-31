@@ -46,6 +46,9 @@ def sudokuProc(dim, vacancy):
     dim = eval(dim.replace('x', '*'))
     vacancy = int(int(vacancy) / 100 * dim * dim)
     sudokuUnfilled = Gen(dim, vacancy).remove()
+    
+    while len(sudokuUnfilled) == 0:
+            sudokuUnfilled = Gen(dim, vacancy).remove()
 
     sudokuWin = Tk()
     sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
@@ -62,13 +65,14 @@ def sudokuProc(dim, vacancy):
         return False
 
     for i in range(len(sudokuUnfilled)):
-        for j in range(i):
+        for j in range(len(sudokuUnfilled[0])):
             if sudokuUnfilled[i][j]:
                 Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 5, height = 3).grid(row = i, column = j)
             else:
                 e = Entry(sudokuWin, width = 10)
                 reg = e.register(correct)
                 e.config(validate = 'key', validatecommand = (reg, '%P'))
+                e.grid(row = i, column = j)
 
 
     sudokuWin.mainloop()
