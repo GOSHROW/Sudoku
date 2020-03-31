@@ -1,13 +1,16 @@
 from tkinter import *
 from GenerateSudoku import Gen
 
-class Store:
+class initStore:
     vacancy = 50
     dim = '3 x 3'
 
+class procStore:
+    elt = 0
+
 def init():
 
-    ob = Store()
+    ob = initStore()
 
     window = Tk()
     window.title("Goshrow Sudoku")
@@ -43,6 +46,9 @@ def init():
     window.mainloop()
 
 def sudokuProc(dim, vacancy):
+
+    ob = procStore()
+
     dim = eval(dim.replace('x', '*'))
     vacancy = int(int(vacancy) / 100 * dim * dim)
     sudokuUnfilled = Gen(dim, vacancy).remove()
@@ -57,11 +63,14 @@ def sudokuProc(dim, vacancy):
 
     def correct(ent):
         print(ent)
-        if ent.isdigit():
+        if ent.isdigit() and len(ent) < 2:
             if int(ent[0]) != 0:
+                ob.elt = ent
                 return True
         if ent == '':
+            ob.elt = 0
             return True
+        ob.elt = 0
         return False
 
     for i in range(len(sudokuUnfilled)):
@@ -69,11 +78,17 @@ def sudokuProc(dim, vacancy):
             if sudokuUnfilled[i][j]:
                 Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 5, height = 3).grid(row = i, column = j)
             else:
-                e = Entry(sudokuWin, width = 10)
+                e = Entry(sudokuWin, width = 5)
                 reg = e.register(correct)
                 e.config(validate = 'key', validatecommand = (reg, '%P'))
-                e.grid(row = i, column = j)
+                e.grid(row = i, column = j, pady = 3)
+                sudokuUnfilled[i][j] = ob.elt
 
+    def sudokuCheck():
+        pass
+                
+    button = Button(sudokuWin, text = "Submit and Check", pady = 20, command = sudokuCheck)
+    button.grid(row = 100, column = 0, sticky = 'nsew', columnspan = len(sudokuUnfilled))
 
     sudokuWin.mainloop()
 
