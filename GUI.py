@@ -6,7 +6,8 @@ class initStore:
     dim = '3 x 3'
 
 class procStore:
-    elt = 0
+    eltMat = 0
+    
 
 def init():
 
@@ -55,6 +56,7 @@ def sudokuProc(dim, vacancy):
     
     while len(sudokuUnfilled) == 0:
             sudokuUnfilled = Gen(dim, vacancy).remove()
+    ob.eltMat = sudokuUnfilled
 
     sudokuWin = Tk()
     sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
@@ -62,31 +64,34 @@ def sudokuProc(dim, vacancy):
     sudokuWin.configure(background = '#c9aa88', borderwidth = '5px')
 
     def correct(ent):
-        print(ent)
         if ent.isdigit() and len(ent) < 2:
             if int(ent[0]) != 0:
-                ob.elt = ent
                 return True
         if ent == '':
-            ob.elt = 0
             return True
-        ob.elt = 0
         return False
+
+    def enter(event, i, j):
+        print(event.get(), type(event) )
+        print(i, j)
+        ob.eltMat[i][j] = event.get()
 
     for i in range(len(sudokuUnfilled)):
         for j in range(len(sudokuUnfilled[0])):
             if sudokuUnfilled[i][j]:
                 Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 5, height = 3).grid(row = i, column = j)
             else:
-                e = Entry(sudokuWin, width = 5)
+                v = StringVar()
+                e = Entry(sudokuWin, textvariable = v ,width = 5)
+                e.bind('<Key>', lambda e: enter(v, i, j))
                 reg = e.register(correct)
                 e.config(validate = 'key', validatecommand = (reg, '%P'))
                 e.grid(row = i, column = j, pady = 3)
-                sudokuUnfilled[i][j] = ob.elt
 
     def sudokuCheck():
+        print(ob.eltMat)
         pass
-                
+        
     button = Button(sudokuWin, text = "Submit and Check", pady = 20, command = sudokuCheck)
     button.grid(row = 100, column = 0, sticky = 'nsew', columnspan = len(sudokuUnfilled))
 
