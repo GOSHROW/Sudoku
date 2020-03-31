@@ -5,7 +5,7 @@ class BackTrackSolution:
     def __init__(self, paraMatrix):
 
         self.sudokuMatrix = []
-        print(paraMatrix)
+        # print(paraMatrix)
         for row in paraMatrix:
             elements = []
             for element in row:
@@ -18,7 +18,7 @@ class BackTrackSolution:
 
         self.assertDim()
         self.createBoolMatrix()
-        print(self.boolMat)
+        # print(self.boolMat)
         self.trial = [[1 for i in range(self.r)] for j in range(self.c)]
         self.x, self.y = 0, 0
 
@@ -68,7 +68,7 @@ class BackTrackSolution:
         # for i in range(len(self.sudokuMatrix)):
         #     print(self.sudokuMatrix[i], sep = " ", end = "\n")
         self.timeElapsed = time.time() - self.timeStart
-        print("\nFinished up in {} seconds".format(self.timeElapsed))
+        print("\nFinished up in {} seconds\n".format(self.timeElapsed))
 
     def checkVal(self, li):
         rets = []
@@ -130,7 +130,7 @@ class BackTrackSolution:
                     if self.y >= self.r:
                         self.printMat()
                         return
-                    print(self.y, self.x)
+                    # print(self.y, self.x)
             
             else:
                 while True:
