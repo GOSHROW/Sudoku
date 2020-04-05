@@ -1,13 +1,10 @@
 from tkinter import *
 from GenerateSudoku import Gen
+from sudokuGUI import *
 
 class initStore:
     vacancy = 50
     dim = '3 x 3'
-
-class procStore:
-    eltMat = 0
-    
 
 def init():
 
@@ -45,57 +42,6 @@ def init():
     button.grid(row = 2, column = 1, sticky = 'nsew')
 
     window.mainloop()
-
-def sudokuProc(dim, vacancy):
-
-    ob = procStore()
-
-    dim = eval(dim.replace('x', '*'))
-    vacancy = int(int(vacancy) / 100 * dim * dim)
-    sudokuUnfilled = Gen(dim, vacancy).remove()
-    
-    while len(sudokuUnfilled) == 0:
-            sudokuUnfilled = Gen(dim, vacancy).remove()
-    ob.eltMat = sudokuUnfilled
-
-    sudokuWin = Tk()
-    sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
-    sudokuWin.geometry('700x700')
-    sudokuWin.configure(background = '#c9aa88', borderwidth = '5px')
-
-    def correct(ent):
-        if ent.isdigit() and len(ent) < 2:
-            if int(ent[0]) != 0:
-                return True
-        if ent == '':
-            return True
-        return False
-
-    def enter(event, i, j):
-        print(event.get(), type(event) )
-        print(i, j)
-        ob.eltMat[i][j] = event.get()
-
-    for i in range(len(sudokuUnfilled)):
-        for j in range(len(sudokuUnfilled[0])):
-            if sudokuUnfilled[i][j]:
-                Label(sudokuWin, text = str(sudokuUnfilled[i][j]), width = 5, height = 3).grid(row = i, column = j)
-            else:
-                v = StringVar()
-                e = Entry(sudokuWin, textvariable = v ,width = 5)
-                e.bind('<Key>', lambda e: enter(v, i, j))
-                reg = e.register(correct)
-                e.config(validate = 'key', validatecommand = (reg, '%P'))
-                e.grid(row = i, column = j, pady = 3)
-
-    def sudokuCheck():
-        print(ob.eltMat)
-        pass
-        
-    button = Button(sudokuWin, text = "Submit and Check", pady = 20, command = sudokuCheck)
-    button.grid(row = 100, column = 0, sticky = 'nsew', columnspan = len(sudokuUnfilled))
-
-    sudokuWin.mainloop()
 
 if __name__ == '__main__':
     init()
