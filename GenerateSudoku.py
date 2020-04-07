@@ -23,7 +23,8 @@ class Gen:
             self.sudokuMatrix = GenerateFilled(self.dim).getGenerated()
         for i in randSequence:
             x, y = i // self.dim, i % self.dim
-            # print(x, y)
+            if i == 0:
+                continue
             self.sudokuMatrix[x][y] = 0
         return self.sudokuMatrix
 
