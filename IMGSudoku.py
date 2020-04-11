@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 imgPath = '../Downloads/sudoku.jpg'
 img = cv2.imread(imgPath, 0)
@@ -18,9 +19,21 @@ output = blurimg.copy()
 if len(contours) != 0:
     cv2.drawContours(output, contours, -1, 255, 3)
     c = max(contours, key = cv2.contourArea)
+    xxx, yyy = [], []
+    for i in c:
+        for j in i:
+            xxx.append(j[0])
+            yyy.append(j[1])
+    
+    xxx = np.asarray(xxx)
+    yyy = np.asarray(yyy)
 
-    x,y,w,h = cv2.boundingRect(c)
-    cv2.rectangle(output,(x,y),(x+w,y+h),(100,90,0),2)
+    print(yyy, xxx)
+    plt.plot(xxx, yyy)
+    plt.show()
+    # x,y,w,h = cv2.boundingRect(c)
+    # cv2.rectangle(output,(x,y),(x+w,y+h),(100,90,0),2)
+    hCorners = cv2.cornerHarris(c)
 
 cv2.imshow("Keypoints", output)
 cv2.waitKey(0)
