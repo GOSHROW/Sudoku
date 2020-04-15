@@ -57,7 +57,19 @@ def preprocess():
         # print(approx, type(approx))
 
         warped = four_point_transform(output, approx.sum(axis = 1))
-    return warped
+    
+    di = (900, 900)     # assuming that all common sudokus are just 9 x 9
+    resized = cv2.resize(warped, di, interpolation = cv2.INTER_AREA)
+    return resized
 
-cv2.imshow("Keypoints", preprocess())
-cv2.waitKey(0)
+def digit_extract(image = preprocess()):
+    im = []
+    for i in range(0, 900, 100):
+        for j in range(0, 900, 100):
+            im.append(image[i : i + 100, j : j + 100])
+    return im
+
+obt = digit_extract()
+for i, e in enumerate(obt):
+    cv2.imshow("Extracted", e)
+    cv2.waitKey(500)
