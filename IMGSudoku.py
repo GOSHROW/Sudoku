@@ -19,6 +19,14 @@ output = blurimg.copy()
 if len(contours) != 0:
     cv2.drawContours(output, contours, -1, 255, 3)
     c = max(contours, key = cv2.contourArea)
+    
+    x,y,w,h = cv2.boundingRect(c)
+    # cv2.rectangle(output,(x,y),(x+w,y+h),(100,90,0),2)
+    letter = output[y:y+h,x:x+w]
+    print(letter)
+    cv2.drawContours(output, contours, -1, 255, 3)
+    c = max(contours, key = cv2.contourArea)
+
     xxx, yyy = [], []
     for i in c:
         for j in i:
@@ -31,9 +39,6 @@ if len(contours) != 0:
     print(yyy, xxx)
     plt.plot(xxx, yyy)
     plt.show()
-    # x,y,w,h = cv2.boundingRect(c)
-    # cv2.rectangle(output,(x,y),(x+w,y+h),(100,90,0),2)
-    hCorners = cv2.cornerHarris(c)
 
-cv2.imshow("Keypoints", output)
+cv2.imshow("Keypoints", letter)
 cv2.waitKey(0)
