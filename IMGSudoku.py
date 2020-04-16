@@ -66,8 +66,11 @@ def digit_extract(image = preprocess()):
     im = []
     for i in range(0, 900, 100):
         for j in range(0, 900, 100):
-            im.append(image[i : i + 100, j : j + 100])
+            im.append(image[i + 5 : i + 95, j + 5 : j + 95])
+    for i, e in enumerate(im):
+        im[i] = cv2.resize(e, (28, 28), interpolation = cv2.INTER_AREA)
     return im
+
 
 obt = digit_extract()
 for i, e in enumerate(obt):
