@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import keras
 
 def order_points(pts):
     rect = np.zeros((4, 2), dtype = "float32")
@@ -33,11 +34,11 @@ def four_point_transform(image, pts):
 	warped = cv2.warpPerspective(image, M, (maxWidth, maxHeight))
 	return warped
 
-def preprocess():
-    imgPath = '../Downloads/sudoku.jpg'
+def preprocess(path):
+    imgPath = path
     img = cv2.imread(imgPath, 0)
     blurimg = cv2.bilateralFilter(img, 7, 25, 25)
-    blurimg = cv2.GaussianBlur(img, (5, 5), 7)
+    # blurimg = cv2.GaussianBlur(img, (5, 5), 7)
     blurimg = cv2.adaptiveThreshold(blurimg, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 5, 2) 
     blurimg = cv2.bitwise_not(blurimg)
 
@@ -62,7 +63,8 @@ def preprocess():
     resized = cv2.resize(warped, di, interpolation = cv2.INTER_AREA)
     return resized
 
-def digit_extract(image = preprocess()):
+def digit_extract(path):
+    image = preprocess(path)
     im = []
     for i in range(0, 900, 100):
         for j in range(0, 900, 100):
@@ -71,8 +73,29 @@ def digit_extract(image = preprocess()):
         im[i] = cv2.resize(e, (28, 28), interpolation = cv2.INTER_AREA)
     return im
 
+def recognizer():
+    model = keras.models.load_model("GOSHROWDigitClassifier.h5")
+    # print(model.summary)
+    obt = digit_extract(path = '../Downloads/sudoku4.jpeg')
+    dim = 9
+    SudokuIdentified = []
+    for i, e in enumerate(obt):
+        if i % dim == 0 :
+            helperAr = []
+        e = cv2.bitwise_not(e)
+        if cv2.countNonZero(e[10 : 19, 10 : 19]) >= 0:
+        # new_image = keras.load_image(img_path)
+        # check prediction
+            IMG = e.reshape((1, 28, 28, 1))
+            pred = model.predict_classes(IMG)
+            cv2.imshow(str(pred), e)
+            cv2.waitKey(600)
+            helperAr.append(int(str(pred)[1:-1]))
+        else:
+            helperAr.append(int(0))
+        SudokuIdentified.append(helperAr)
+    
+    return SudokuIdentified
 
-obt = digit_extract()
-for i, e in enumerate(obt):
-    cv2.imshow("Extracted", e)
-    cv2.waitKey(500)
+s = recognizer()
+print(s)
