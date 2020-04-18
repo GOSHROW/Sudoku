@@ -76,26 +76,26 @@ def digit_extract(path):
 def recognizer():
     model = keras.models.load_model("GOSHROWDigitClassifier.h5")
     # print(model.summary)
-    obt = digit_extract(path = '../Downloads/sudoku4.jpeg')
+    obt = digit_extract(path = 'sudoku.jpg')
     dim = 9
     SudokuIdentified = []
-    helperAr = []
+    helperAr = [0] * 81
 
     for i, e in enumerate(obt):
         # if i % dim == 0 :
         #     SudokuIdentified.append(helperAr)
         #     helperAr = []
         e = cv2.bitwise_not(e)
-        # if cv2.countNonZero(e[10 : 19, 10 : 19]) >= 0:
-        # new_image = keras.load_image(img_path)
-        # check prediction
-        IMG = e.reshape((1, 28, 28, 1))
-        pred = model.predict_classes(IMG)
-        cv2.imshow(str(i) + str(pred), e)
-        cv2.waitKey(600)
-        helperAr.append(int(str(pred)[1:-1]))
-        # else:
-        #     helperAr.append(int(0))
+        if cv2.countNonZero(e[10 : 19, 10 : 19]) >= 10:
+            IMG = e.reshape((1, 28, 28, 1))
+            pred = model.predict(IMG)
+            pred = pred.tolist()
+            print(pred)
+            ind = pred[0].index(max(pred[0]))
+            cv2.imshow(str(i) + str(ind), e)
+            cv2.waitKey(600)
+            helperAr[i] = (int(str(ind)))
+
     SudokuIdentified = helperAr
     return SudokuIdentified
 
