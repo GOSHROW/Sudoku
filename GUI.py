@@ -10,17 +10,13 @@ class initStore:
     arr = []
 
 def IMGinput(ob, root):
-    
     f = filedialog.askopenfilename(
         parent=root, initialdir='/',
         title='Choose Sudoku Image',
         filetypes=[('png images', '.png'), ('gif images', '.gif'), ('jpg images', '.jpg'), ('jpeg images', '.jpeg')]
         )
     print(f)
-    import IMGSudoku
-    ob.arr = recognizer(f)
-    print(ob.arr)
-    ob.arr = predict(ob.arr)
+    ob.arr = predict(f)
 
 
 def init():

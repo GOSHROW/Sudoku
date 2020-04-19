@@ -8,10 +8,10 @@ class procStore:
     newSolution = []
     c = 0
 
-ob = procStore()
 
 def sudokuProc(dim = '3x3', vacancy = 50):
 
+    ob = procStore()
     dim = eval(dim.replace('x', '*'))
     vacancy = int(int(vacancy) / 100 * dim * dim)
     sudokuUnfilled = Gen(dim, vacancy).remove()
@@ -19,16 +19,25 @@ def sudokuProc(dim = '3x3', vacancy = 50):
     while len(sudokuUnfilled) == 0:
         sudokuUnfilled = Gen(dim, vacancy).remove()
     ob.eltMat = sudokuUnfilled
+    finalProc(ob.eltMat)
 
 def sudokuIMG(arr = [[0]* 9]* 9):
+    ob = procStore()
     ob.eltMat = arr
-    finalProc()
+    finalProc(arr)
 
 def finalProc(sudokuUnfilled):
+    ob = procStore()
+    dim = len(sudokuUnfilled)
+    vacancy = 0
+    for i in sudokuUnfilled:
+        vacancy += i.count(0)
+
+    ob.eltMat = sudokuUnfilled
     solved = BackTrackSolution(ob.eltMat).sudokuMatrix
     sudokuWin = Tk()
     sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
-    sudokuWin.geometry('700x700')
+    sudokuWin.geometry('1000x1000')
     sudokuWin.configure(background = '#c9aa88', borderwidth = '5px')
 
     for i in range(len(sudokuUnfilled)):
