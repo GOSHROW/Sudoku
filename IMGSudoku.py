@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import keras
+import tensorflow as tf
 
 def order_points(pts):
     rect = np.zeros((4, 2), dtype = "float32")
@@ -74,29 +75,28 @@ def digit_extract(path):
     return im
 
 def recognizer():
-    model = keras.models.load_model("GOSHROWDigitClassifier.h5")
+    model = tf.keras.models.load_model("./models/GOSHROWDigitClassifier.h5")
     # print(model.summary)
-    obt = digit_extract(path = 'sudoku.jpg')
+    obt = digit_extract(path = 'testIMGsudoku.jpg')
     dim = 9
-    SudokuIdentified = []
-    helperAr = [0] * 81
+    SudokuIdentified = [0] * 81
 
     for i, e in enumerate(obt):
         # if i % dim == 0 :
         #     SudokuIdentified.append(helperAr)
         #     helperAr = []
-        e = cv2.bitwise_not(e)
-        if cv2.countNonZero(e[10 : 19, 10 : 19]) >= 10:
-            IMG = e.reshape((1, 28, 28, 1))
-            pred = model.predict(IMG)
-            pred = pred.tolist()
-            print(pred)
-            ind = pred[0].index(max(pred[0]))
-            cv2.imshow(str(i) + str(ind), e)
-            cv2.waitKey(600)
-            helperAr[i] = (int(str(ind)))
 
-    SudokuIdentified = helperAr
+        # print(str(cv2.countNonZero(e[10 : -10, 10 : -10])))
+        
+        if cv2.countNonZero(e[10 : -10, 10 : -10]) >= 25:
+            e = cv2.bitwise_not(e)
+            IMG = e.reshape((1, 28, 28, 1))
+            pred = model.predict_classes(IMG).tolist()
+            ind = pred[0]
+            # cv2.imshow(str(i) + " " + str(ind), e)
+            # cv2.waitKey(600)
+            SudokuIdentified[i] = (int(str(ind)))
+
     return SudokuIdentified
 
 s = recognizer()
