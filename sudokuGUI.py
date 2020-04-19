@@ -1,25 +1,31 @@
 from tkinter import *
 from GenerateSudoku import Gen
 from Solution import BackTrackSolution
+from IMGSudoku import *
 
 class procStore:
     eltMat = []
     newSolution = []
     c = 0
 
-def sudokuProc(dim, vacancy):
+ob = procStore()
 
-    ob = procStore()
+def sudokuProc(dim = '3x3', vacancy = 50):
 
     dim = eval(dim.replace('x', '*'))
     vacancy = int(int(vacancy) / 100 * dim * dim)
     sudokuUnfilled = Gen(dim, vacancy).remove()
-    
+    dim = len(sudokuUnfilled)
     while len(sudokuUnfilled) == 0:
-            sudokuUnfilled = Gen(dim, vacancy).remove()
+        sudokuUnfilled = Gen(dim, vacancy).remove()
     ob.eltMat = sudokuUnfilled
-    solved = BackTrackSolution(ob.eltMat).sudokuMatrix
 
+def sudokuIMG(arr = [[0]* 9]* 9):
+    ob.eltMat = arr
+    finalProc()
+
+def finalProc(sudokuUnfilled):
+    solved = BackTrackSolution(ob.eltMat).sudokuMatrix
     sudokuWin = Tk()
     sudokuWin.title("Goshrow " + str(dim) + " " + str(vacancy))
     sudokuWin.geometry('700x700')

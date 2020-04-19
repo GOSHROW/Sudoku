@@ -74,10 +74,10 @@ def digit_extract(path):
         im[i] = cv2.resize(e, (28, 28), interpolation = cv2.INTER_AREA)
     return im
 
-def recognizer():
+def recognizer(path = 'testIMGsudoku.jpg'):
     model = tf.keras.models.load_model("./models/GOSHROWDigitClassifier.h5")
     # print(model.summary)
-    obt = digit_extract(path = 'testIMGsudoku.jpg')
+    obt = digit_extract(path = path)
     dim = 9
     SudokuIdentified = [0] * 81
 
@@ -99,5 +99,6 @@ def recognizer():
 
     return SudokuIdentified
 
-s = recognizer()
-print(s)
+if __name__ == '__main__':    
+    s = recognizer()
+    print(s)
