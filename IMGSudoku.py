@@ -64,6 +64,19 @@ def preprocess(path):
     resized = cv2.resize(warped, di, interpolation = cv2.INTER_AREA)
     return resized
 
+def floodfil_image(img):
+        rows = np.shape(img)[0]
+        for i in range(rows):
+            cv2.floodFill(img, None, (0, i), 0)
+            cv2.floodFill(img, None, (i, 0), 0)
+            cv2.floodFill(img, None, (rows-1, i), 0)
+            cv2.floodFill(img, None, (i, rows-1), 0)
+            cv2.floodFill(img, None, (1, i), 1)
+            cv2.floodFill(img, None, (i, 1), 1)
+            cv2.floodFill(img, None, (rows - 2, i), 1)
+            cv2.floodFill(img, None, (i, rows - 2), 1)
+        return img
+
 def digit_extract(path):
     image = preprocess(path)
     im = []
