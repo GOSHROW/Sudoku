@@ -5,3 +5,4 @@ Extended Documentation and Beautification of GUI to be done in future commits.
 Install packages as needed or `pip3 -r install requirements.txt`.
 
 Test application by `python3 GUI.py`.
+ 
